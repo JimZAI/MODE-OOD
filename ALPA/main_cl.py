@@ -81,7 +81,9 @@ def parse_option():
                         help='warm-up for large batch training')
     parser.add_argument('--trial', type=str, default='0',
                         help='id for recording multiple runs')
-    parser.add_argument('--finetune', action='store_true',
+    parser.add_argument('--alpa_train', action='store_true',
+                        help='finetune pretrained models')
+    parser.add_argument('--alpa_finetune', action='store_true',
                         help='finetune pretrained models')
 
     opt = parser.parse_args()
@@ -102,11 +104,11 @@ def parse_option():
     for it in iterations:
         opt.lr_decay_epochs.append(int(it))
 
-    if opt.finetune:
+    if opt.alpa_finetune:
         opt.model_name = 'Finetune_{}_{}_{}_lr_{}_bsz_{}_trial_{}'.\
             format(opt.method, opt.dataset, opt.model, opt.learning_rate,
                    opt.batch_size,  opt.trial, opt.lam)
-    elif opt.spatial_cont_loss:
+    elif opt.alpa_train:
         opt.model_name = 'Joint_{}_{}_{}_lr_{}_bsz_{}_trial_{}_lam_{}'.\
             format(opt.method, opt.dataset, opt.model, opt.learning_rate,
                    opt.batch_size,  opt.trial, opt.lam)

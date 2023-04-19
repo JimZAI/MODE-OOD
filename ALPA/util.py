@@ -93,7 +93,7 @@ def set_optimizer(opt, model):
 
 def save_model(model, attention, optimizer, opt, epoch, save_file, spatial_cont_loss):
     print('==> Saving...')
-    if spatial_cont_loss or opt.finetune:
+    if opt.alpa_train or opt.alpa_finetune:
         state = {
             'opt': opt,
             'model': model.state_dict(),

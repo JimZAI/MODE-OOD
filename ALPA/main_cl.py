@@ -234,19 +234,14 @@ def train(train_loader, model, criterion, optimizer, epoch, opt, criterion_contr
         if opt.finetune:
             loss = 0
             opt.lam = 1
-            loss_contrast_spatial = criterion_contrast_spatial(spatial_f, labels=labels, attention=attention)
+            loss_contrast_spatial = criterion_alpa(spatial_f, labels=labels, attention=attention)
             Mode = "Finetune"
         else:
             f1, f2 = torch.split(features, [bsz, bsz], dim=0)
             features = torch.cat([f1.unsqueeze(1), f2.unsqueeze(1)], dim=1)
-            if opt.method == 'SupCon':
-                loss = criterion(features, labels)
-            elif opt.method == 'SimCLR':
-                loss = criterion(features)
-            else:
-                raise ValueError('contrastive method not supported: {}'.format(opt.method))
-            if opt.spatial_cont_loss:
-                loss_contrast_spatial = criterion_contrast_spatial(spatial_f, labels=labels, attention=attention)
+            loss = criterion(features, labels)
+            if opt.alpa_train:
+                loss_contrast_spatial = criterion_alpa(spatial_f, labels=labels, attention=attention)
                 Mode = "Joint"
             else:
                 loss_contrast_spatial = loss-loss
@@ -282,7 +277,7 @@ def train(train_loader, model, criterion, optimizer, epoch, opt, criterion_contr
 def main():
     opt = parse_option()
 
-    criterion_contrast_spatial = ContrastiveLoss(temperature=opt.temperature_s)
+    criterion_alpa = ContrastiveLoss(temperature=opt.temperature_s)
     train_loader = set_loader(opt)
     model, criterion = set_model(opt)
 
@@ -298,7 +293,7 @@ def main():
 
     if torch.cuda.is_available():
         model = model.cuda()
-        if opt.spatial_cont_loss or opt.finetune:
+        if opt.alpa_train or opt.alpa_finetune:
             attention = attention.cuda()
 
     # training routine
@@ -307,7 +302,7 @@ def main():
 
         # train for one epoch
         time1 = time.time()
-        loss = train(train_loader, model, criterion, optimizer, epoch, opt, criterion_contrast_spatial, attention)
+        loss = train(train_loader, model, criterion, optimizer, epoch, opt, criterion_alpa, attention)
         time2 = time.time()
         print('epoch {}, total time {:.2f}'.format(epoch, time2 - time1))
 

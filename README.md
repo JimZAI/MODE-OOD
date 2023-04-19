@@ -185,14 +185,16 @@ Run ./demo_cifar.sh.
 ## References
 <div style="text-align:justify; font-size:80%">
     <p>
-        [1] Khosla P, Teterwak P, Wang C, Sarna A, Tian Y, Isola P, Maschinot A, Liu C, Krishnan D. Supervised contrastive learning; <a href="https://proceedings.neurips.cc/paper/2020/hash/d89a66c7c80a29b1bdbab0f2a1a94af8-Abstract.html">Supervised Contrastive Learning</a>; NeurIPS 2020.
+        [1] Khosla P, Teterwak P, Wang C, Sarna A, Tian Y, Isola P, Maschinot A, Liu C, Krishnan D; <a href="https://proceedings.neurips.cc/paper/2020/hash/d89a66c7c80a29b1bdbab0f2a1a94af8-Abstract.html">Supervised Contrastive Learning (SupCon)</a>; NeurIPS 2020.
     </p>
     <p>
-        [2] Sun, Yiyou and Ming, Yifei and Zhu, Xiaojin and Li, Yixuan; <a href="https://proceedings.mlr.press/v162/sun22d.html">Out-of-distribution Detection with Deep Nearest Neighbors</a>; ICML 2022.
+        [2] Sun, Yiyou and Ming, Yifei and Zhu, Xiaojin and Li, Yixuan; <a href="https://proceedings.mlr.press/v162/sun22d.html">Out-of-distribution Detection with Deep Nearest Neighbors (KNN)</a>; ICML 2022.
     </p>
 </div>
 
 
 ## Acknowledge
-We thank authors of [SupCon](https://github.com/HobbitLong/SupContrast), [KNN](https://github.com/deeplearning-wisc/knn-ood) for their source code. 
+Our codes (as well as this README.md) are based on the public repositories of [SupCon](https://github.com/HobbitLong/SupContrast) and [KNN](https://github.com/deeplearning-wisc/knn-ood).
+
+We thank authors of  for their source code.  
 

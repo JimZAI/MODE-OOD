@@ -3,60 +3,132 @@
 Out-of-distribution (OOD) detection aims to detect “unknown” data whose labels have not been seen during the in-distribution (ID) training process. Recent progress in representation learning gives rise to distance-based OOD detection that recognizes testing examples as ID/OOD according to their relatively distances to the training data of ID classes. Previous approaches calculate pairwise distances relying only on global image representations, which can be sub-optimal as the inevitable background clutter and intra-class variation may drive imagelevel representations from the same ID class far apart in a given representation space. In this work, we tackle this challenge by proposing Multi-scale OOD DEtection (MODE), a first framework leveraging both global visual information and local region details of images to maximally benefit OOD detection. Specifically, we first find that existing models pretrained by offthe-shelf cross-entropy or contrastive losses are incompetent to
 capture valuable local representations for MODE, due to the scale-discrepancy between the ID training and OOD detection processes. To mitigate this issue and encourage locally discriminative representations in ID training, we propose Attention-based Local PropAgation (ALPA), a trainable objective that exploits a cross-attention mechanism to align and highlight the local regions of the target objects for pairwise examples. In test-time OOD detection, a Cross-Scale Decision (CSD) function is further devised on the most discriminative multi-scale representations to separate ID-OOD data more faithfully. We demonstrate the effectiveness and flexibility of MODE on several benchmarks. Remarkably, MODE outperforms the previous state-of-the-art up to 19.24% in FPR, 2.77% in AUROC. 
 
+## Motivation 
+Motivation of exploring local, region-level representations to enhance the distance calculation between pairwise examples: the inevitable background
+clutter and intra-class variation may drive global, image-level representations from the same ID class far apart in a given representation space. For the
+first time, we take advantage of both global visual information and local region details of images to maximally benefit OOD detection.
 <p align="center">
-  <img src="./figs/f1.png" style="width:50%">
+  <img src="./figures/f1.png" style="width:50%">
 </p>
  
-## Overview
-An overview of the proposed DETA (in a 2-way 3-shot exemple). During each iteration of task adaptation, the images together with a collection of cropped local regions of the support samples are first fed into a pre-trained model to extract image and region representations. Next, a Contrastive Relevance Aggregation(CoRA) module takes the region representations as input to determine the weight of each region, based on which we can calculate the image weights by a momentum accumulator. Finally, a local compactness loss and a global dispersion loss are devised in a weighted embedding space for noise-robust representation learning. At inference, we only retain the adapted model to produce image representations of support samples, on which we build a classifier guided by the refined image weights from the accumulator. 
+## Overview of training-time Attention-based Local Propagation (ALPA)
+During ID training, we develop ALPA, an end-to-end, plug-and-play, and cross-attention based learning objective tailored for encouraging locally discriminative representations for MODE.
 <p align="center">
-  <img src="./figs/f2.png" style="width:100%">
+  <img src="./figures/f2.png" style="width:80%">
+</p>
+
+## Overview of test-time OOD detection with Cross-scale Decision (CSD) 
+During test-time OOD detection, we devise CSD, a simple, effective and multi-scale representations based ID-OOD decision function for MODE.
+<p align="center">
+  <img src="./figures/f3.png" style="width:50%">
 </p>
 
 
 ## Contributions
-- We propose DETA, a first, unified image- and label-denoising framework for FSL.
+- We propose MODE, a first framework that takes advantage of multi-scale (i.e., both global and local) representations for OOD detection.
 
-- DETA can be flexibly plugged into different adapter-based and finetuning-based task adaptation paradigms.
+- In ID training, we develop ALPA, an end-to-end, plug-and-play, and cross-attention based learning objective tailored for encouraging locally discriminative representations for MODE.
 
-- Extensive experiments on Meta-Dataset demonstrate the effectiveness and flexibility of DETA.
+- In test-time OOD detection, we devise CSD, a simple, effective and multi-scale representations based ID-OOD decision function for MODE.
+
+- Extensive experiments on several benchmark datasets demonstrate the effectiveness and flexibility of MODE. Remarkably, MODE outperforms the previous state-ofthe-art up to 19.24% in FPR, 2.77% in AUROC.
+
 
 ## Strong Performance
-- Image-denoising on vanilla Meta-dataset
+- CIFAR-10 (ID) with ResNet-18
 <p align="center">
-  <img src="./figs/t1.png" style="width:95%">
+  <img src="./figures/f4.png" style="width:80%">
 </p>
 
-- Label-denoising on label-corrupted Meta-dataset
+- CIFAR-100 (ID) with ResNet-34
 <p align="center">
-  <img src="./figs/t2.png" style="width:50%">
+  <img src="./figures/f5.png" style="width:80%">
 </p>
 
-- State-of-the-art Comparison
+- ImageNet (ID) with ResNet-50
 <p align="center">
-  <img src="./figs/t3.png" style="width:95%">
+  <img src="./figures/f6.png" style="width:80%">
 </p>
 
 ## Visualization
-- Visualization of the cropped regions and calculated weights by CoRA.
+-  Visualization with tSNE
 <p align="center">
-  <img src="./figs/f3.png" style="width:95%">
+  <img src="./figures/f7.png" style="width:70%">
 </p>
 
-- CAM visualization.
+- Visualization analysis on k-nearest neighbors
 <p align="center">
-  <img src="./figs/f4.png" style="width:50%">
+  <img src="./figures/f8.png" style="width:80%">
 </p>
 
 ## Dependencies
-* Python 3.6 or greater
-* PyTorch 1.0 or greater
-* TensorFlow 1.14 or greater
+* [PyTorch](https://pytorch.org/)
+* [scipy](https://github.com/scipy/scipy)
+* [numpy](http://www.numpy.org/)
+* [sklearn](https://scikit-learn.org/stable/)
+* [faiss](https://github.com/facebookresearch/faiss)
+* [pytorch-vit](https://github.com/lukemelas/PyTorch-Pretrained-ViT)
+* [ylib](https://github.com/sunyiyou/ylib)
 
 ## Datasets
-* Clone or download this repository.
-* Follow the "User instructions" in the [Meta-Dataset repository](https://github.com/google-research/meta-dataset) for "Installation" and "Downloading and converting datasets".
-* Edit ```./meta-dataset/data/reader.py``` in the meta-dataset repository to change ```dataset = dataset.batch(batch_size, drop_remainder=False)``` to ```dataset = dataset.batch(batch_size, drop_remainder=True)```. (The code can run with ```drop_remainder=False```, but in our work, we drop the remainder such that we will not use very small batch for some domains and we recommend to drop the remainder for reproducing our methods.)
+#### In-distribution dataset
+Please download [ImageNet-1k](http://www.image-net.org/challenges/LSVRC/2012/index) and place the training data and validation data in
+`./datasets/imagenet/train` and  `./datasets/imagenet/val`, respectively.
+
+#### Out-of-distribution dataset
+
+We have curated 4 OOD datasets from 
+[iNaturalist](https://arxiv.org/pdf/1707.06642.pdf), 
+[SUN](https://vision.princeton.edu/projects/2010/SUN/paper.pdf), 
+[Places](http://places2.csail.mit.edu/PAMI_places.pdf), 
+and [Textures](https://arxiv.org/pdf/1311.3618.pdf), 
+and de-duplicated concepts overlapped with ImageNet-1k.
+
+For iNaturalist, SUN, and Places, we have sampled 10,000 images from the selected concepts for each dataset,
+which can be download via the following links:
+```bash
+wget http://pages.cs.wisc.edu/~huangrui/imagenet_ood_dataset/iNaturalist.tar.gz
+wget http://pages.cs.wisc.edu/~huangrui/imagenet_ood_dataset/SUN.tar.gz
+wget http://pages.cs.wisc.edu/~huangrui/imagenet_ood_dataset/Places.tar.gz
+```
+
+For Textures, we use the entire dataset, which can be downloaded from their
+[original website](https://www.robots.ox.ac.uk/~vgg/data/dtd/).
+
+Please put all downloaded OOD datasets into `./datasets/ood_data`.
+
+### 2. Dataset Preparation for CIFAR Experiment 
+
+#### In-distribution dataset
+
+The downloading process will start immediately upon running. 
+
+#### Out-of-distribution dataset
+
+
+We provide links and instructions to download each dataset:
+
+* [SVHN](http://ufldl.stanford.edu/housenumbers/test_32x32.mat): download it and place it in the folder of `datasets/ood_data/svhn`. Then run `python select_svhn_data.py` to generate test subset.
+* [Textures](https://www.robots.ox.ac.uk/~vgg/data/dtd/download/dtd-r1.0.1.tar.gz): download it and place it in the folder of `datasets/ood_data/dtd`.
+* [Places365](http://data.csail.mit.edu/places/places365/test_256.tar): download it and place it in the folder of `datasets/ood_data/places365/test_subset`. We randomly sample 10,000 images from the original test dataset. 
+* [LSUN](https://www.dropbox.com/s/fhtsw1m3qxlwj6h/LSUN.tar.gz): download it and place it in the folder of `datasets/ood_data/LSUN`.
+* [iSUN](https://www.dropbox.com/s/ssz7qxfqae0cca5/iSUN.tar.gz): download it and place it in the folder of `datasets/ood_data/iSUN`.
+* [LSUN_fix](https://drive.google.com/file/d/1KVWj9xpHfVwGcErH5huVujk9snhEGOxE/view?usp=sharing): download it and place it in the folder of `datasets/ood_data/LSUN_fix`.
+* [ImageNet_fix](https://drive.google.com/file/d/1sO_-noq10mmziB1ECDyNhD5T4u5otyKA/view?usp=sharing): download it and place it in the folder of `datasets/ood_data/ImageNet_fix`.
+* [ImageNet_resize](https://www.dropbox.com/s/kp3my3412u5k9rl/Imagenet_resize.tar.gz): download it and place it in the folder of `datasets/ood_data/Imagenet_resize`.
+
+[//]: # (For example, run the following commands in the **root** directory to download **LSUN**:)
+
+[//]: # (```)
+
+[//]: # (cd datasets/ood_datasets)
+
+[//]: # (wget https://www.dropbox.com/s/fhtsw1m3qxlwj6h/LSUN.tar.gz)
+
+[//]: # (tar -xvzf LSUN.tar.gz)
+
+[//]: # (```)
+
 
 ## Pretrained Models
 - [URL (RN-18)](https://github.com/VICO-UoE/URL)
@@ -71,28 +143,51 @@ An overview of the proposed DETA (in a 2-way 3-shot exemple). During each iterat
 
 - [Swin Transformer (Tiny)](https://github.com/microsoft/Swin-Transformer)
 
-## Initialization
-* Before doing anything, first run the following commands.
-    ```
-    ulimit -n 50000
-    export META_DATASET_ROOT=<root directory of the cloned or downloaded Meta-Dataset repository>
-    export RECORDS=<the directory where tf-records of MetaDataset are stored>
-    ```
-* Enter the root directory of this project, i.e. the directory where this project was cloned or downloaded.
+## Model pretraining w/ or w/o ALPA
+**Standard cross-entropy (CE)**
+```
+python ./ALPA/main_ce.py --batch_size 512 \
+  --learning_rate 0.5 \
+  --cosine --syncBN \
+```
 
+**Standard contrastive loss (CL)**
+```
+python ./ALPA/main_supcon.py --batch_size 512 \
+  --learning_rate 0.5 \
+  --temp 0.1 \
+  --cosine
+```
 
-## Task Adaptation
-Specify a pretrained model to be adapted, and execute the following command.
-* Baseline
-    ```
-    python main.py --pretrained_model=MOCO --maxIt=40 --ratio=0. --test.type=10shot
-    ```
-* Ours
-    ```
-    python main.py --pretrained_model=MOCO --maxIt=40 --ratio=0. --test.type=10shot --ours --n_regions=2
-    ```
- Note: set ratio=0. for image-denoising, set  0. < ratio < 1.0 for label-denoising.
+**ID training  w/ ALPA-train**
+```
+python ./ALPA/main_supcon.py --batch_size 128 \
+--learning_rate 0.1 \
+--temp 0.1 \
+--cosine \
+--trial 0 \
+--dataset cifar100 \
+--model resnet34 \
+--alpa_train
+```
 
+**ID training w/ ALPA-finetune**
+```
+python ./ALPA/main_supcon.py --batch_size 128 \
+--learning_rate 0.1 \
+--temp 0.1 \
+--cosine \
+--trial 0 \
+--dataset cifar100 \
+--model resnet34 \
+--alpa_finetune
+```
+
+## Test-time OOD detection with CSD
+Specify the path to the pretrained model, and execute the following command.
+```
+Run ./demo_cifar.sh.
+```
 
 ## References
 <div style="text-align:justify; font-size:80%">

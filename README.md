@@ -71,6 +71,39 @@ During test-time OOD detection, we devise CSD, a simple, effective and multi-sca
 * [ylib](https://github.com/sunyiyou/ylib)
 
 ## Datasets
+
+### 1. CIFAR experiment 
+
+#### In-distribution dataset
+
+The downloading process will start immediately upon running. 
+
+#### Out-of-distribution dataset
+
+We provide links and instructions to download each dataset:
+
+* [SVHN](http://ufldl.stanford.edu/housenumbers/test_32x32.mat): download it and place it in the folder of `datasets/ood_data/svhn`. Then run `python select_svhn_data.py` to generate test subset.
+* [Textures](https://www.robots.ox.ac.uk/~vgg/data/dtd/download/dtd-r1.0.1.tar.gz): download it and place it in the folder of `datasets/ood_data/dtd`.
+* [Places365](http://data.csail.mit.edu/places/places365/test_256.tar): download it and place it in the folder of `datasets/ood_data/places365/test_subset`. We randomly sample 10,000 images from the original test dataset. 
+* [LSUN](https://www.dropbox.com/s/fhtsw1m3qxlwj6h/LSUN.tar.gz): download it and place it in the folder of `datasets/ood_data/LSUN`.
+* [iSUN](https://www.dropbox.com/s/ssz7qxfqae0cca5/iSUN.tar.gz): download it and place it in the folder of `datasets/ood_data/iSUN`.
+* [LSUN_fix](https://drive.google.com/file/d/1KVWj9xpHfVwGcErH5huVujk9snhEGOxE/view?usp=sharing): download it and place it in the folder of `datasets/ood_data/LSUN_fix`.
+* [ImageNet_fix](https://drive.google.com/file/d/1sO_-noq10mmziB1ECDyNhD5T4u5otyKA/view?usp=sharing): download it and place it in the folder of `datasets/ood_data/ImageNet_fix`.
+* [ImageNet_resize](https://www.dropbox.com/s/kp3my3412u5k9rl/Imagenet_resize.tar.gz): download it and place it in the folder of `datasets/ood_data/Imagenet_resize`.
+
+[//]: # (For example, run the following commands in the **root** directory to download **LSUN**:)
+
+[//]: # (```)
+
+[//]: # (cd datasets/ood_datasets)
+
+[//]: # (wget https://www.dropbox.com/s/fhtsw1m3qxlwj6h/LSUN.tar.gz)
+
+[//]: # (tar -xvzf LSUN.tar.gz)
+
+[//]: # (```)
+
+### 2. ImageNet experiment
 #### In-distribution dataset
 Please download [ImageNet-1k](http://www.image-net.org/challenges/LSVRC/2012/index) and place the training data and validation data in
 `./datasets/imagenet/train` and  `./datasets/imagenet/val`, respectively.
@@ -97,37 +130,7 @@ For Textures, we use the entire dataset, which can be downloaded from their
 
 Please put all downloaded OOD datasets into `./datasets/ood_data`.
 
-### 2. Dataset Preparation for CIFAR Experiment 
 
-#### In-distribution dataset
-
-The downloading process will start immediately upon running. 
-
-#### Out-of-distribution dataset
-
-
-We provide links and instructions to download each dataset:
-
-* [SVHN](http://ufldl.stanford.edu/housenumbers/test_32x32.mat): download it and place it in the folder of `datasets/ood_data/svhn`. Then run `python select_svhn_data.py` to generate test subset.
-* [Textures](https://www.robots.ox.ac.uk/~vgg/data/dtd/download/dtd-r1.0.1.tar.gz): download it and place it in the folder of `datasets/ood_data/dtd`.
-* [Places365](http://data.csail.mit.edu/places/places365/test_256.tar): download it and place it in the folder of `datasets/ood_data/places365/test_subset`. We randomly sample 10,000 images from the original test dataset. 
-* [LSUN](https://www.dropbox.com/s/fhtsw1m3qxlwj6h/LSUN.tar.gz): download it and place it in the folder of `datasets/ood_data/LSUN`.
-* [iSUN](https://www.dropbox.com/s/ssz7qxfqae0cca5/iSUN.tar.gz): download it and place it in the folder of `datasets/ood_data/iSUN`.
-* [LSUN_fix](https://drive.google.com/file/d/1KVWj9xpHfVwGcErH5huVujk9snhEGOxE/view?usp=sharing): download it and place it in the folder of `datasets/ood_data/LSUN_fix`.
-* [ImageNet_fix](https://drive.google.com/file/d/1sO_-noq10mmziB1ECDyNhD5T4u5otyKA/view?usp=sharing): download it and place it in the folder of `datasets/ood_data/ImageNet_fix`.
-* [ImageNet_resize](https://www.dropbox.com/s/kp3my3412u5k9rl/Imagenet_resize.tar.gz): download it and place it in the folder of `datasets/ood_data/Imagenet_resize`.
-
-[//]: # (For example, run the following commands in the **root** directory to download **LSUN**:)
-
-[//]: # (```)
-
-[//]: # (cd datasets/ood_datasets)
-
-[//]: # (wget https://www.dropbox.com/s/fhtsw1m3qxlwj6h/LSUN.tar.gz)
-
-[//]: # (tar -xvzf LSUN.tar.gz)
-
-[//]: # (```)
 
 ## ID training w/ or w/o ALPA
 **Baseline**
@@ -175,6 +178,9 @@ Run ./demo_cifar.sh.
     </p>
     <p>
         [2] Sun, Yiyou and Ming, Yifei and Zhu, Xiaojin and Li, Yixuan; <a href="https://proceedings.mlr.press/v162/sun22d.html">Out-of-distribution Detection with Deep Nearest Neighbors (KNN)</a>; ICML 2022.
+    </p>
+    <p>
+        [3] Johnson J, Douze M, Jégou H; <a href="https://ieeexplore.ieee.org/abstract/document/8733051">Billion-scale similarity search with gpus</a>;  IEEE Transactions on Big Data 2019.
     </p>
 </div>
 

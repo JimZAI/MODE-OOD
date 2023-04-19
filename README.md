@@ -143,15 +143,8 @@ We provide links and instructions to download each dataset:
 
 - [Swin Transformer (Tiny)](https://github.com/microsoft/Swin-Transformer)
 
-## Model pretraining w/ or w/o ALPA
-**Standard cross-entropy (CE)**
-```
-python ./ALPA/main_ce.py --batch_size 512 \
-  --learning_rate 0.5 \
-  --cosine --syncBN \
-```
-
-**Standard contrastive loss (CL)**
+## ID training w/ or w/o ALPA
+**Baseline**
 ```
 python ./ALPA/main_supcon.py --batch_size 512 \
   --learning_rate 0.5 \
@@ -159,10 +152,10 @@ python ./ALPA/main_supcon.py --batch_size 512 \
   --cosine
 ```
 
-**ID training  w/ ALPA-train**
+**ID training w/ ALPA-train**
 ```
 python ./ALPA/main_supcon.py --batch_size 128 \
---learning_rate 0.1 \
+--learning_rate 0.5 \
 --temp 0.1 \
 --cosine \
 --trial 0 \
@@ -192,24 +185,14 @@ Run ./demo_cifar.sh.
 ## References
 <div style="text-align:justify; font-size:80%">
     <p>
-        [1] Eleni Triantafillou, Tyler Zhu, Vincent Dumoulin, Pascal Lamblin, Utku Evci, Kelvin Xu, Ross Goroshin, Carles Gelada, Kevin Swersky, Pierre-Antoine Manzagol, Hugo Larochelle; <a href="https://arxiv.org/abs/1903.03096">Meta-Dataset: A Dataset of Datasets for Learning to Learn from Few Examples</a>; ICLR 2020.
+        [1] Khosla P, Teterwak P, Wang C, Sarna A, Tian Y, Isola P, Maschinot A, Liu C, Krishnan D. Supervised contrastive learning; <a href="https://proceedings.neurips.cc/paper/2020/hash/d89a66c7c80a29b1bdbab0f2a1a94af8-Abstract.html">Supervised Contrastive Learning</a>; NeurIPS 2020.
     </p>
     <p>
-        [2] Li, Wei-Hong and Liu, Xialei and Bilen, Hakan; <a href="https://arxiv.org/abs/2107.00358">Cross-domain Few-shot Learning with Task-specific Adapters</a>; CVPR 2022.
+        [2] Sun, Yiyou and Ming, Yifei and Zhu, Xiaojin and Li, Yixuan; <a href="https://proceedings.mlr.press/v162/sun22d.html">Out-of-distribution Detection with Deep Nearest Neighbors</a>; ICML 2022.
     </p>
-    <p>
-        [3] Xu, Chengming and Yang, Siqian and Wang, Yabiao and Wang, Zhanxiong and Fu, Yanwei and Xue, Xiangyang; <a href="https://openreview.net/pdf?id=n3qLz4eL1l">Exploring Efficient Few-shot Adaptation for Vision Transformers</a>; Transactions on Machine Learning Research 2022.
-    </p>
-    <p>
-        [4] Liang, Kevin J and Rangrej, Samrudhdhi B and Petrovic, Vladan and Hassner, Tal; <a href="https://openaccess.thecvf.com/content/CVPR2022/papers/Liang_Few-Shot_Learning_With_Noisy_Labels_CVPR_2022_paper.pdf">Few-shot learning with noisy labels</a>; CVPR 2022.
-    </p>
-    <p>
-        [5] Chen, Pengguang, Shu Liu, and Jiaya Jia; <a href="http://openaccess.thecvf.com/content/CVPR2021/papers/Chen_Jigsaw_Clustering_for_Unsupervised_Visual_Representation_Learning_CVPR_2021_paper.pdf">Jigsaw clustering for unsupervised visual representation learning</a>; CVPR 2020.
-    </p>
-
 </div>
 
 
 ## Acknowledge
-We thank authors of [Meta-Dataset](https://github.com/google-research/meta-dataset), [URL/TSA](https://github.com/VICO-UoE/URL), [eTT](https://github.com/loadder/eTT_TMLR2022), [JigsawClustering](https://github.com/dvlab-research/JigsawClustering) for their source code. 
+We thank authors of [SupCon](https://github.com/HobbitLong/SupContrast), [KNN](https://github.com/deeplearning-wisc/knn-ood) for their source code. 
 

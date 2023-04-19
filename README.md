@@ -129,20 +129,6 @@ We provide links and instructions to download each dataset:
 
 [//]: # (```)
 
-
-## Pretrained Models
-- [URL (RN-18)](https://github.com/VICO-UoE/URL)
-
-- [DINO (ViT-S)](https://github.com/facebookresearch/dino)
-
-- [MoCo-v2 (RN-50)](https://github.com/facebookresearch/moco)
-
-- [CLIP (RN-50)](https://github.com/OpenAI/CLIP)
-
-- [Deit (ViT-S)](https://github.com/facebookresearch/deit)
-
-- [Swin Transformer (Tiny)](https://github.com/microsoft/Swin-Transformer)
-
 ## ID training w/ or w/o ALPA
 **Baseline**
 ```
